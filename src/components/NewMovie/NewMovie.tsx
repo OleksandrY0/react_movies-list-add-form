@@ -34,12 +34,12 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
       return;
     }
 
-    const newMovie: Movie = {
-      title,
-      description,
-      imgUrl,
-      imdbUrl,
-      imdbId,
+    const newMovie = {
+      title: title.trim(),
+      imgUrl: imgUrl.trim(),
+      imdbUrl: imdbUrl.trim(),
+      imdbId: imdbId.trim(),
+      ...(description.trim() && { description: description.trim() }),
     };
 
     onAdd(newMovie);
