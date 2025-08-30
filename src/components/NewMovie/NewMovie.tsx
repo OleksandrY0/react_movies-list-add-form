@@ -16,18 +16,21 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
+  function handleReset() {
+    setTitle('');
+    setDescription('');
+    setImgUrl('');
+    setImdbUrl('');
+    setImdbId('');
+  }
+
+  const isDisabled =
+    !title.trim() || !imgUrl.trim() || !imdbUrl.trim() || !imdbId.trim();
+
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (
-      !(
-        title.trim() &&
-        description.trim() &&
-        imgUrl.trim() &&
-        imdbUrl.trim() &&
-        imdbId.trim()
-      )
-    ) {
+    if (!(title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim())) {
       return;
     }
 
@@ -42,14 +45,6 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
     onAdd(newMovie);
     handleReset();
     setCount(c => c + 1);
-  }
-
-  function handleReset() {
-    setTitle('');
-    setDescription('');
-    setImgUrl('');
-    setImdbUrl('');
-    setImdbId('');
   }
 
   return (
@@ -76,6 +71,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
+        required
       />
 
       <TextField
@@ -83,6 +79,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
+        required
       />
 
       <TextField
@@ -90,6 +87,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
         label="Imdb ID"
         value={imdbId}
         onChange={setImdbId}
+        required
       />
 
       <div className="field is-grouped">
@@ -98,6 +96,7 @@ export const NewMovie: React.FC<Props> = ({ onAdd }) => {
             type="submit"
             data-cy="submit-button"
             className="button is-link"
+            disabled={isDisabled}
           >
             Add
           </button>
